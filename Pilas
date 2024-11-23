@@ -1,0 +1,27 @@
+import java.util.Stack;
+import java.util.Scanner;
+
+public class Pilas {
+
+    
+    public Stack<Object> llenarPilaUsuario(Scanner sc) {
+        Stack<Object> pila = new Stack<>();
+        System.out.println("Ingrese los valores para llenar la pila (separados por espacio):");
+        String[] valores = sc.nextLine().split(" ");
+        for (String valor : valores) {
+            pila.push(valor.matches("\\d+") ? Integer.parseInt(valor) : valor);  
+        }
+        System.out.println("Pila llenada: " + pila);
+        return pila;
+    }
+
+   
+    public int buscarEnPila(Stack<Object> pila, Object valor) {
+        for (int i = pila.size() - 1; i >= 0; i--) {
+            if (pila.get(i).equals(valor)) {
+                return i;  
+            }
+        }
+        return -1;  
+    }
+}

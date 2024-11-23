@@ -1,0 +1,73 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Stack<Object> pila = new Stack<>();
+        Pilas pilas = new Pilas();  
+        boolean continuar = true;
+
+        
+        pila = pilas.llenarPilaUsuario(sc);
+
+        
+        while (continuar) {
+            System.out.println("Ingrese un carácter o número para buscar en la pila:");
+            String input = sc.nextLine();
+            Object valor = input.matches("\\d+") ? Integer.parseInt(input) : input;
+
+            if (pila.isEmpty()) {
+                System.out.println("La pila está vacía. Volviendo a llenar la pila.");
+                pila = pilas.llenarPilaUsuario(sc);  // Volver a llenar la pila si está vacía
+            }
+
+           
+            int posicion = pilas.buscarEnPila(pila, valor);
+
+            if (posicion == -1) {
+                System.out.println("Valor " + valor + " no encontrado.");
+                
+                
+                boolean opcionValida = false;
+                while (!opcionValida) {
+                    System.out.println("Seleccione una opción:");
+                    System.out.println("1. Volver a buscar");
+                    System.out.println("2. Volver a llenar la pila");
+                    System.out.println("3. Terminar el proceso");
+                    int opcion = sc.nextInt();
+                    sc.nextLine(); 
+
+                    switch (opcion) {
+                        case 1:
+                            System.out.println("Volviendo a buscar el valor en la pila.");
+                            opcionValida = true;  
+                            break;
+                        case 2:
+                            System.out.println("Volviendo a llenar la pila.");
+                            pila.clear();  
+                            pila = pilas.llenarPilaUsuario(sc);  
+                            opcionValida = true;  
+                            break;
+                        case 3:
+                            System.out.println("Terminando el proceso.");
+                            continuar = false;  
+                            opcionValida = true;
+                            break;
+                        default:
+                            System.out.println("Opción no válida. Terminando el proceso.");
+                            continuar = false;  
+                            opcionValida = true;
+                            break;
+                    }
+                }
+            } else {
+                System.out.println("Valor " + valor + " encontrado en la posición " + posicion + " de la pila.");
+                continuar = false;  
+            }
+        }
+
+        sc.close(); 
+    }
+}
